@@ -33,5 +33,21 @@ var Tree = function(value) {
   this.children = [];
 };
 
+Tree.prototype.addChild = function(value){
+  this.children.push(new Tree(value))
+}
+
+Tree.prototype.map = function(f,element){
+  element = new Tree(f(this.value)) || element          //making a new tree starting from the head
+                                                         //we check the childrens if they exist we need to iterate over em one by one
+    this.children.forEach(function(child){
+       element.addChild(f(child.value))
+       if(child.children.length !== 0){
+        return child.map(f)
+       }
+    })
+  
+  return element                                               
+}
 
 
